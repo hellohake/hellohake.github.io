@@ -336,4 +336,91 @@
         <tag>每日一题</tag>
       </tags>
   </entry>
+  <entry>
+    <title>lc-253</title>
+    <url>/post/783086a2.html</url>
+    <content><![CDATA[<h1 id="253-会议室II"><a href="#253-会议室II" class="headerlink" title="253. 会议室II"></a>253. 会议室II</h1><blockquote>
+<p>给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[s1,e1],[s2,e2],…] (si &lt; ei)，为避免会议冲突，同时要考虑充分利用会议室资源，请你计算至少需要多少间会议室，才能满足这些会议安排。</p>
+<p>示例 1:</p>
+<p>输入: [[0, 30],[5, 10],[15, 20]]<br>输出: 2<br>示例 2:</p>
+<p>输入: [[7,10],[2,4]]<br>输出: 1</p>
+</blockquote>
+<hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">热题100道最后一道会员题，哈哈，总算刷完基础100道了~</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>思路：使用最小堆+数组排序</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minMeetingRooms</span><span class="params">(<span class="keyword">int</span>[][] intervals)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(intervals.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        PriorityQueue&lt;Integer&gt; allocator = <span class="keyword">new</span> PriorityQueue&lt;Integer&gt;(intervals.length , (a , b) -&gt; a- b);</span><br><span class="line">        <span class="comment">//对时间表按照开始时间从小到大排序</span></span><br><span class="line">        Arrays.sort(intervals , (a ,b) -&gt; a[<span class="number">0</span>] - b[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">//添加第一场会议</span></span><br><span class="line">        allocator.add(intervals[<span class="number">0</span>][<span class="number">1</span>]);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//遍历除第一场会议之外的所有会议</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; intervals.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(intervals[i][<span class="number">0</span>] &gt;= allocator.peek())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//如果当前会议的开始时间大于前面已经开始的会议中最晚结束的时间,则该会议室可以重复使用</span></span><br><span class="line">                allocator.poll();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//把当前会议结束时间加入最小堆中</span></span><br><span class="line">            allocator.add(intervals[i][<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当所有会议遍历完毕，还在最小堆里面的，说明会议还没结束，此时的数量就是会议室的最少数量</span></span><br><span class="line">        <span class="keyword">return</span> allocator.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>-热题100道</category>
+      </categories>
+      <tags>
+        <tag>-热题100道</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-621</title>
+    <url>/post/de76d995.html</url>
+    <content><![CDATA[<h1 id="621-任务调度器"><a href="#621-任务调度器" class="headerlink" title="621. 任务调度器"></a><a href="https://leetcode-cn.com/problems/task-scheduler/">621. 任务调度器</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个用字符数组 tasks 表示的 CPU 需要执行的任务列表。其中每个字母表示一种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。在任何一个单位时间，CPU 可以完成一个任务，或者处于待命状态。</span><br><span class="line"></span><br><span class="line">然而，两个 相同种类 的任务之间必须有长度为整数 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。</span><br><span class="line"></span><br><span class="line">你需要计算完成所有任务所需要的 最短时间 。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：桶思想，完成所有任务的最短时间取决于出现次数最多的任务数量；</p>
+<p>贪心思想：优先安排出现次数最多的任务，让该任务两次执行的时间恰好为n，在这个时间间隔内填充其他任务；</p>
+<p>计算公式：max( 并行最大任务数 +  （并行最大次数 - 1） * （ n + 1）(n为冷却时间)  ,   任务数组长度);</p>
+<p>情况1：</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210419152356.png" alt="image-20210419152356496"></p>
+<p>情况2：</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210419152404.png" alt="image-20210419152404886"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//coding1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">leastInterval</span><span class="params">(<span class="keyword">char</span>[] tasks, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//统计各任务出现次数</span></span><br><span class="line">        <span class="keyword">int</span> t = tasks.length;</span><br><span class="line">        <span class="keyword">int</span>[] taskCnt = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; t; i++)</span><br><span class="line">            taskCnt[tasks[i] - <span class="string">&#x27;A&#x27;</span>]++;</span><br><span class="line">        Arrays.sort(taskCnt);   <span class="comment">//具体是哪个任务最多出现次数不重要</span></span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;            <span class="comment">//最大并行任务数统计</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">25</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(taskCnt[i] == taskCnt[<span class="number">25</span>])</span><br><span class="line">                cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Math.max(t , cnt + (taskCnt[<span class="number">25</span>] - <span class="number">1</span>) * (n + <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>热题100道</category>
+      </categories>
+      <tags>
+        <tag>热题100道</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-581</title>
+    <url>/post/26df8f46.html</url>
+    <content><![CDATA[<h1 id="581-最短无序连续子数组"><a href="#581-最短无序连续子数组" class="headerlink" title="581.最短无序连续子数组"></a>581.<a href="https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray/">最短无序连续子数组</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个整数数组 nums ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</span><br><span class="line">请你找出符合题意的 最短 子数组，并输出它的长度。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路1 ： 首先进行排序，然后比较左边界和右边界第一个不同的位置</p>
+<p>时间复杂度： O(nlogn)</p>
+<p>空间复杂度： O(n)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">int</span>[] cnum = nums.clone();</span><br><span class="line">        Arrays.sort(cnum);</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span> , right = n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(cnum[i] != nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                left = i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(cnum[i] != nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                right = i;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right - left == n ? <span class="number">0</span> : right - left + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//写法2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">int</span>[] cnum = nums.clone();</span><br><span class="line">        Arrays.sort(cnum);</span><br><span class="line">        <span class="keyword">int</span> left = n , right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(cnum[i] != nums[i])</span><br><span class="line">            &#123;</span><br><span class="line">                left = Math.min(left, i);</span><br><span class="line">                right = Math.max(right , i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> right - left &lt; <span class="number">0</span> ? <span class="number">0</span> : right - left + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路2：选择排序，找到无序子数组中最小元素和最大元素分别对应的正确位置，来确定无序子数组的边界</p>
+<p>使用栈，时间复杂度：O(n)  空间复杂度： O(n)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        Deque&lt;Integer&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">int</span> left = n , right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; nums[stack.peek()] &gt; nums[i])</span><br><span class="line">                left = Math.min(left , stack.poll());</span><br><span class="line">            stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stack.clear();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; nums[stack.peek()] &lt; nums[i])</span><br><span class="line">                right = Math.max(right , stack.poll());</span><br><span class="line">            stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right - left &gt; <span class="number">0</span> ? right - left + <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>暴力方法</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210419144917.png" alt="image-20210419144917134"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="keyword">int</span> left = n - <span class="number">1</span> , right = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n -<span class="number">1</span>; i++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[j] &lt; nums[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    right = Math.max(right , j);</span><br><span class="line">                    left = Math.min(left , i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> right - left &gt; <span class="number">0</span> ? right - left + <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>热题100道</category>
+      </categories>
+      <tags>
+        <tag>热题100道</tag>
+      </tags>
+  </entry>
 </search>
