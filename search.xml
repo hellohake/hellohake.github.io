@@ -423,4 +423,66 @@
         <tag>热题100道</tag>
       </tags>
   </entry>
+  <entry>
+    <title>jzOffer-68-II</title>
+    <url>/post/1e8bcec9.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-68-II-二叉树的最近公共祖先"><a href="#剑指-Offer-68-II-二叉树的最近公共祖先" class="headerlink" title="剑指 Offer 68 - II. 二叉树的最近公共祖先"></a><a href="https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/">剑指 Offer 68 - II. 二叉树的最近公共祖先</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</span><br><span class="line"></span><br><span class="line">百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</span><br><span class="line"></span><br><span class="line">例如，给定如下二叉树:  root &#x3D; [3,5,1,6,2,0,8,null,null,7,4]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：递归，后序遍历，从底向上进行搜索；</p>
+<p>公共祖先有3种分布情况：</p>
+<ol>
+<li>p和 q在 root的子树中，且分列 root的 <strong>异侧</strong>；    2. <em>p</em>=root , q在ro<strong>o</strong>t 的左或右子树中；    3. <em>q</em>=<em>r<strong>o</strong>o**t</em> ，且 p<em>p</em> 在 root<em>r<strong>o</strong>o**t</em> 的左或右子树中；</li>
+</ol>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210420102139.png" alt="image-20210420102138999"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span> || root == p || root == q)</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        <span class="comment">//后序遍历，从底向上进行搜索</span></span><br><span class="line">        TreeNode left = lowestCommonAncestor(root.left , p , q);</span><br><span class="line">        TreeNode right = lowestCommonAncestor(root.right , p , q);</span><br><span class="line">        <span class="keyword">if</span>(left == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> right;</span><br><span class="line">        <span class="keyword">if</span>(right == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> left;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="剑指-Offer-68-I-二叉搜索树的最近公共祖先"><a href="#剑指-Offer-68-I-二叉搜索树的最近公共祖先" class="headerlink" title="剑指 Offer 68 - I. 二叉搜索树的最近公共祖先"></a><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/">剑指 Offer 68 - I. 二叉搜索树的最近公共祖先</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。</span><br><span class="line"></span><br><span class="line">百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：利用二叉搜索树有序的特点</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//递归写法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(p.val &gt; root.val &amp;&amp; q.val &gt; root.val)</span><br><span class="line">            <span class="keyword">return</span> lowestCommonAncestor(root.right , p ,q);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p.val &lt; root.val &amp;&amp; q.val &lt; root.val)</span><br><span class="line">            <span class="keyword">return</span> lowestCommonAncestor(root.left , p ,q);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//迭代写法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">        TreeNode res = root;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(res.val &gt; p.val &amp;&amp; res.val &gt; q.val)</span><br><span class="line">            &#123;</span><br><span class="line">                res = res.left;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(res.val &lt; p.val &amp;&amp; res.val &lt; q.val)</span><br><span class="line">            &#123;</span><br><span class="line">                res = res.right;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-28</title>
+    <url>/post/46940ce0.html</url>
+    <content><![CDATA[<h1 id="28-实现strStr"><a href="#28-实现strStr" class="headerlink" title="28.实现strStr()"></a>28.实现strStr()</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">实现 strStr() 函数。</span><br><span class="line">给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。</span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</span><br><span class="line">对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与 C 语言的 strstr() 以及 Java 的 indexOf() 定义相符。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>KMP算法：考虑怎么计算next数组，部分匹配表；背模板</p>
+<p>复杂度分析：原串长度n，模式串长度m，时间复杂度O(n + m) , 空间复杂度O(m)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = haystack.length() , m = needle.length();</span><br><span class="line">        <span class="keyword">if</span>(m == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        haystack = <span class="string">&quot; &quot;</span> + haystack;</span><br><span class="line">        needle = <span class="string">&quot; &quot;</span> + needle;</span><br><span class="line">        <span class="keyword">char</span>[] s = haystack.toCharArray() , p = needle.toCharArray();</span><br><span class="line">        <span class="comment">//计算next数组</span></span><br><span class="line">        <span class="keyword">int</span>[] next = <span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> , j = <span class="number">0</span>; i &lt;= m; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(j &gt; <span class="number">0</span> &amp;&amp; p[i] != p[j+<span class="number">1</span>])  <span class="comment">//匹配不成功，进行回溯</span></span><br><span class="line">                j = next[j];</span><br><span class="line">            <span class="keyword">if</span>(p[j+<span class="number">1</span>] == p[i])      <span class="comment">//匹配成功</span></span><br><span class="line">                j++;</span><br><span class="line">            next[i] = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//原串和模式串匹配</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span> , j = <span class="number">0</span>; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(j &gt; <span class="number">0</span> &amp;&amp; s[i] != p[j+<span class="number">1</span>])</span><br><span class="line">                j = next[j];</span><br><span class="line">            <span class="keyword">if</span>(s[i] == p[j+<span class="number">1</span>])</span><br><span class="line">                j++;</span><br><span class="line">            <span class="keyword">if</span>(j == m)</span><br><span class="line">                <span class="keyword">return</span> i - m;   <span class="comment">//整段匹配成功，返回下标</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路2：  暴力计算，</p>
+<p>时间复杂度：原串n , 模式串m ,   O((n - m) * m)</p>
+<p>空间复杂度： O(1)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = haystack.length() , m = needle.length();</span><br><span class="line">        <span class="keyword">if</span>(m == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">char</span>[] s = haystack.toCharArray() , p = needle.toCharArray();</span><br><span class="line">        <span class="comment">//暴力匹配</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n - m; i++)		<span class="comment">//注意这里带=号</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> k = i , j = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(j &lt; m &amp;&amp; s[k] == p[j])</span><br><span class="line">            &#123;</span><br><span class="line">                k++;</span><br><span class="line">                j++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(j == m)  <span class="comment">//完全匹配</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
 </search>
