@@ -485,4 +485,150 @@
         <tag>每日一题</tag>
       </tags>
   </entry>
+  <entry>
+    <title>jc32-III</title>
+    <url>/post/c4f06753.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-32-III-从上到下打印二叉树-III"><a href="#剑指-Offer-32-III-从上到下打印二叉树-III" class="headerlink" title="剑指 Offer 32 - III. 从上到下打印二叉树 III"></a><a href="https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/">剑指 Offer 32 - III. 从上到下打印二叉树 III</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：BFS ，层序遍历</p>
+<p>奇数层添加到tmp的头部</p>
+<p>偶数层添加到tmp的尾部</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Deque&lt;TreeNode&gt; queue = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        queue.addLast(root);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> size = queue.size();     </span><br><span class="line">            LinkedList&lt;Integer&gt; tmp = <span class="keyword">new</span> LinkedList&lt;&gt;();  </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                TreeNode node = queue.pollFirst();</span><br><span class="line">                <span class="keyword">if</span>(res.size() % <span class="number">2</span> == <span class="number">0</span>)     <span class="comment">//偶数层，队列头部</span></span><br><span class="line">                    tmp.addLast(node.val);</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    tmp.addFirst(node.val);</span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addLast(node.left);</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addLast(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(tmp);</span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>一次打印2层</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Deque&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        queue.addLast(root);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> size = queue.size();</span><br><span class="line">            LinkedList&lt;Integer&gt; tmp = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)       <span class="comment">//奇数层</span></span><br><span class="line">            &#123;</span><br><span class="line">                TreeNode node = queue.pollFirst();</span><br><span class="line">                tmp.add(node.val);</span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addLast(node.left);</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addLast(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(tmp);</span><br><span class="line">            tmp = <span class="keyword">new</span> LinkedList&lt;&gt;();            <span class="comment">//清空</span></span><br><span class="line">            size = queue.size();    <span class="comment">//偶数层</span></span><br><span class="line">            <span class="keyword">if</span>(size == <span class="number">0</span>)           <span class="comment">//偶数层没有，直接跳出</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)       <span class="comment">//奇数层</span></span><br><span class="line">            &#123;</span><br><span class="line">                TreeNode node = queue.pollLast();   <span class="comment">//从右向左打印</span></span><br><span class="line">                tmp.addLast(node.val);</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addFirst(node.right);</span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)</span><br><span class="line">                    queue.addFirst(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jz-33</title>
+    <url>/post/6a0c099c.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-33-二叉搜索树的后序遍历序列"><a href="#剑指-Offer-33-二叉搜索树的后序遍历序列" class="headerlink" title="剑指 Offer 33. 二叉搜索树的后序遍历序列"></a><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/">剑指 Offer 33. 二叉搜索树的后序遍历序列</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210421171510.png" alt="image-20210421171510668"></p>
+<hr>
+<blockquote>
+<p>递归：</p>
+<p>1 3 2[左子树]   6[右子树]   5[根]</p>
+<p>–&gt;二叉搜索树特性：左子树区间所有元素都小于根结点，右子树区间所有元素都大于根节点元素</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verifyPostorder</span><span class="params">(<span class="keyword">int</span>[] postorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> vertify(postorder, <span class="number">0</span> , postorder.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">vertify</span><span class="params">(<span class="keyword">int</span>[] postorder , <span class="keyword">int</span> i , <span class="keyword">int</span> j)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i &gt;= j)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">int</span> p = i;</span><br><span class="line">        <span class="keyword">while</span>(postorder[p] &lt; postorder[j])</span><br><span class="line">            p++;</span><br><span class="line">        <span class="keyword">int</span> m = p;</span><br><span class="line">        <span class="keyword">while</span>(postorder[p] &gt; postorder[j])</span><br><span class="line">            p++;</span><br><span class="line">        <span class="keyword">return</span> p == j &amp;&amp; vertify(postorder , i , m - <span class="number">1</span>) &amp;&amp; vertify(postorder , m, j - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>辅助栈：</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210421172404.png" alt="image-20210421172404626"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verifyPostorder</span><span class="params">(<span class="keyword">int</span>[] postorder)</span> </span>&#123;</span><br><span class="line">        Deque&lt;Integer&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> root = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = postorder.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(postorder[i] &gt; root) </span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">while</span>(!stack.isEmpty() &amp;&amp; stack.peekLast() &gt; postorder[i])</span><br><span class="line">                root = stack.pollLast();</span><br><span class="line">            stack.addLast(postorder[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>美团暑期实习算法题</title>
+    <url>/post/b9706eda.html</url>
+    <content><![CDATA[<h1 id="39-组合总数（力扣）"><a href="#39-组合总数（力扣）" class="headerlink" title="39.组合总数（力扣）"></a>39.组合总数（力扣）</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</span><br><span class="line"></span><br><span class="line">candidates 中的数字可以无限制重复被选取。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>回溯，暴力搜索 + 部分剪枝，面试前一个月做的，然后具体细节有些忘了，然后run了爆栈。。。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; tmp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span>(candidates.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line">        dfs(<span class="number">0</span> , candidates , target , <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> idx , <span class="keyword">int</span>[] candidates , <span class="keyword">int</span> target , <span class="keyword">int</span> sum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(idx == candidates.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum == target)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tmp));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum &gt; target)    <span class="comment">//剪枝</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//不选择当前元素</span></span><br><span class="line">        dfs(idx + <span class="number">1</span> , candidates, target ,sum);</span><br><span class="line">        <span class="comment">//选择</span></span><br><span class="line">        tmp.add(candidates[idx]);</span><br><span class="line">        dfs(idx, candidates , target , sum + candidates[idx]);  <span class="comment">//下一步递归仍然可能选择该元素</span></span><br><span class="line">        tmp.remove(tmp.size() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>写法2：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; tmp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span>(candidates.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line">        dfs(<span class="number">0</span> , candidates , target , <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> idx , <span class="keyword">int</span>[] candidates , <span class="keyword">int</span> target , <span class="keyword">int</span> sum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(idx == candidates.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum == target)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tmp));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = idx ; i &lt; candidates.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum + candidates[i] &lt;= target)   <span class="comment">//剪枝</span></span><br><span class="line">            &#123;</span><br><span class="line">                tmp.add(candidates[i]);</span><br><span class="line">                dfs(i , candidates , target , sum + candidates[i]);</span><br><span class="line">                tmp.remove(tmp.size() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="40-组合总数II-力扣"><a href="#40-组合总数II-力扣" class="headerlink" title="40.组合总数II(力扣)"></a>40.组合总数II(力扣)</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</span><br><span class="line"></span><br><span class="line">candidates 中的每个数字在每个组合中只能使用一次。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>这里需要去重，回溯 + 剪枝 + 去重</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; tmp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum2(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = candidates.length;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line">        dfs(<span class="number">0</span> , candidates , target , <span class="number">0</span> , res , tmp);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> idx , <span class="keyword">int</span>[] candidates , <span class="keyword">int</span> target , <span class="keyword">int</span> sum , List&lt;List&lt;Integer&gt;&gt; res , List&lt;Integer&gt; tmp)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum == target)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(tmp));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = idx ; i &lt; candidates.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum + candidates[i] &gt; target)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span>(i &gt; idx &amp;&amp; candidates[i] == candidates[i-<span class="number">1</span>])  <span class="comment">//下一个元素相同直接跳过</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            tmp.add(candidates[i]);                </span><br><span class="line">            dfs(i + <span class="number">1</span>, candidates , target , sum + candidates[i] , res , tmp);  <span class="comment">//不可选择重复元素</span></span><br><span class="line">            tmp.remove(tmp.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-91</title>
+    <url>/post/dcbc6d8f.html</url>
+    <content><![CDATA[<h1 id="91-解码方法"><a href="#91-解码方法" class="headerlink" title="91. 解码方法"></a><a href="https://leetcode-cn.com/problems/decode-ways/">91. 解码方法</a></h1><p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210421145236.png" alt="image-20210421145236136"></p>
+<hr>
+<blockquote>
+<p>思路：dp动态规划</p>
+<p>dp[i] :  以i结尾的字符串解码方法总数</p>
+<p>状态转移方程：</p>
+<p>dp[i] = dp[i-1] (s[i-1] != ‘0’)</p>
+<p>dp[i] = dp[i-2] (s[i-2] != ‘0’ &amp;&amp; 10 * (s[i-2] - ‘0’) + s[i-1] - ‘0’ &lt;= 26)</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210421150139.png" alt="image-20210421150139163"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</span><br><span class="line">        <span class="comment">//边界</span></span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(s.charAt(i - <span class="number">1</span>) != <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i] += dp[i-<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(i &gt; <span class="number">1</span> &amp;&amp; s.charAt(i - <span class="number">2</span>) != <span class="string">&#x27;0&#x27;</span> &amp;&amp; (<span class="number">10</span> * (s.charAt(i-<span class="number">2</span>) - <span class="string">&#x27;0&#x27;</span>) + s.charAt(i - <span class="number">1</span>) - <span class="string">&#x27;0&#x27;</span>) &lt;= <span class="number">26</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i] += dp[i-<span class="number">2</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
 </search>
