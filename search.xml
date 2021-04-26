@@ -675,4 +675,149 @@
         <tag>每人一题</tag>
       </tags>
   </entry>
+  <entry>
+    <title>lc-1011</title>
+    <url>/post/9d341272.html</url>
+    <content><![CDATA[<h1 id="1011-在-D-天内送达包裹的能力"><a href="#1011-在-D-天内送达包裹的能力" class="headerlink" title="1011. 在 D 天内送达包裹的能力"></a><a href="https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/">1011. 在 D 天内送达包裹的能力</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">传送带上的包裹必须在 D 天内从一个港口运送到另一个港口。</span><br><span class="line"></span><br><span class="line">传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。</span><br><span class="line"></span><br><span class="line">返回能在 D 天内将传送带上的所有包裹送达的船的最低运载能力。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：使用二分查找结果：首先确定船的最低运载能力，然后确定最大运载能力，然后在此之间进行查找</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shipWithinDays</span><span class="params">(<span class="keyword">int</span>[] weights, <span class="keyword">int</span> D)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length;</span><br><span class="line">        <span class="keyword">int</span> left = -<span class="number">1</span>, right = <span class="number">0</span>;       <span class="comment">//确定二分左右边界</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            left = Math.max(left , weights[i]);</span><br><span class="line">            right += weights[i];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(left &lt; right)     <span class="comment">//二分</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (left + right) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(check(weights, mid , D)) <span class="comment">//满足最大运力</span></span><br><span class="line">            &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;   <span class="comment">//不满足最大运力</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span>[] weights , <span class="keyword">int</span> m , <span class="keyword">int</span> d)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; n ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum + weights[i] &lt;= m)   <span class="comment">//未达到最大运力，继续累加</span></span><br><span class="line">            &#123;</span><br><span class="line">                sum += weights[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//达到最大运力，更新</span></span><br><span class="line">                sum = weights[i];</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt &lt;= d;        <span class="comment">//该运力是否超过最大天数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jz-54</title>
+    <url>/post/a2323bb9.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-54-二叉搜索树的第k大节点"><a href="#剑指-Offer-54-二叉搜索树的第k大节点" class="headerlink" title="剑指 Offer 54. 二叉搜索树的第k大节点"></a><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/">剑指 Offer 54. 二叉搜索树的第k大节点</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一棵二叉搜索树，请找出其中第k大的节点。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路： 二叉树中序遍历有序，从小到大排列</p>
+<p>求第k大，应该倒过来进行寻找，右根左进行遍历</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">kthLargest</span><span class="params">(TreeNode root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        dfs(root , k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root , <span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//第k大，右根左</span></span><br><span class="line">        dfs(root.right , k);</span><br><span class="line">        <span class="keyword">if</span>(++cnt == k)</span><br><span class="line">        &#123;</span><br><span class="line">            res = root.val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(root.left , k);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-897</title>
+    <url>/post/de7f8861.html</url>
+    <content><![CDATA[<h1 id="897-递增顺序搜索树"><a href="#897-递增顺序搜索树" class="headerlink" title="897. 递增顺序搜索树"></a><a href="https://leetcode-cn.com/problems/increasing-order-search-tree/">897. 递增顺序搜索树</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一棵二叉搜索树，请你 按中序遍历 将其重新排列为一棵递增顺序搜索树，使树中最左边的节点成为树的根节点，并且每个节点没有左子节点，只有一个右子节点。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：中序遍历，在遍历的过程中对二叉搜素树进行修改，使用一个pre指针指向当前节点cur的左孩子，然后根据pre和cur的位置关系修改指针指向，更改指向后，将pre更新为cur，并清空其左子树</p>
+<p>其他思路：迭代实现</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    TreeNode pre = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">increasingBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        TreeNode dummy = <span class="keyword">new</span> TreeNode(-<span class="number">1</span>);</span><br><span class="line">        pre = dummy;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> dummy.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        pre.right = root;   <span class="comment">//更改指针指向</span></span><br><span class="line">        pre = root;         <span class="comment">//更新pre位置</span></span><br><span class="line">        pre.left = <span class="keyword">null</span>;    <span class="comment">//清空其左指针指向</span></span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-377</title>
+    <url>/post/4ca94a0e.html</url>
+    <content><![CDATA[<h1 id="377-组合总和-Ⅳ"><a href="#377-组合总和-Ⅳ" class="headerlink" title="377. 组合总和 Ⅳ"></a><a href="https://leetcode-cn.com/problems/combination-sum-iv/">377. 组合总和 Ⅳ</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。</span><br><span class="line"></span><br><span class="line">题目数据保证答案符合 32 位整数范围。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>动态规划，考虑背包问题</p>
+<p><em>dp</em>[<em>x</em>] 表示选取的元素之和等于 x<em>x</em> 的方案数，目标是求dp[target]。</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210424090633.png" alt="image-20210424090633543"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">combinationSum4</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="comment">//dp[i] : 以i结尾的最大排列数</span></span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[target+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;   <span class="comment">//不选取元素时，总和才为0 ， 方案为1  </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= target ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i &gt;= num)</span><br><span class="line">                    dp[i] += dp[i - num];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jz-66</title>
+    <url>/post/67110956.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-66-构建乘积数组"><a href="#剑指-Offer-66-构建乘积数组" class="headerlink" title="剑指 Offer 66. 构建乘积数组"></a><a href="https://leetcode-cn.com/problems/gou-jian-cheng-ji-shu-zu-lcof/">剑指 Offer 66. 构建乘积数组</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个数组 A[0,1,…,n-1]，请构建一个数组 B[0,1,…,n-1]，其中 B[i] 的值是数组 A 中除了下标 i 以外的元素的积, 即 B[i]&#x3D;A[0]×A[1]×…×A[i-1]×A[i+1]×…×A[n-1]。不能使用除法。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：预先对数组进行处理，计算左边矩阵连乘结果，右边矩阵连乘结果，然后进行求解</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] constructArr(<span class="keyword">int</span>[] a) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = a.length;</span><br><span class="line">        <span class="keyword">int</span>[] left = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        <span class="keyword">int</span>[] right = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == <span class="number">0</span>)</span><br><span class="line">                left[i] = a[i];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                left[i] = left[i-<span class="number">1</span>] * a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == n- <span class="number">1</span>)</span><br><span class="line">                right[i] = a[i];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                right[i] = right[i+<span class="number">1</span>] * a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//计算结果</span></span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == <span class="number">0</span>)</span><br><span class="line">                res[i] = right[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(i == n-<span class="number">1</span>)</span><br><span class="line">                res[i] = left[i-<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                res[i] = left[i-<span class="number">1</span>] * right[i+<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>优化内存空间的写法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] constructArr(<span class="keyword">int</span>[] a) &#123;</span><br><span class="line">        <span class="keyword">if</span>(a.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span>[] b = <span class="keyword">new</span> <span class="keyword">int</span>[a.length];</span><br><span class="line">        b[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">            b[i] = b[i - <span class="number">1</span>] * a[i - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = a.length - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            tmp *= a[i + <span class="number">1</span>];</span><br><span class="line">            b[i] *= tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-368</title>
+    <url>/post/c50d66de.html</url>
+    <content><![CDATA[<h1 id="368-最大整除子集"><a href="#368-最大整除子集" class="headerlink" title="368. 最大整除子集"></a><a href="https://leetcode-cn.com/problems/largest-divisible-subset/">368. 最大整除子集</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个由 无重复 正整数组成的集合 nums ，请你找出并返回其中最大的整除子集 answer ，子集中每一元素对 (answer[i], answer[j]) 都应当满足：</span><br><span class="line">answer[i] % answer[j] &#x3D;&#x3D; 0 ，或</span><br><span class="line">answer[j] % answer[i] &#x3D;&#x3D; 0</span><br><span class="line">如果存在多个有效解子集，返回其中任何一个均可。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路： 动态规划，计算出以nums[i]结尾的最大整除子集个数，然后倒序求结果，注意数组不一定有序，需要进行排序</p>
+<p>状态转移方程：dp[i] = max(dp[i] , dp[j] + 1); (0 &lt;= j &lt; i)</p>
+<p>base case: dp[i] = 1;(最小为1)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//coding</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">largestDivisibleSubset</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(nums.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n];      <span class="comment">//dp[i] : 以nums[i]为结尾的最大整除子集个数</span></span><br><span class="line">        <span class="keyword">int</span> maxLen = <span class="number">1</span> , maxVal = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i] = <span class="number">1</span>;      <span class="comment">//base case</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i] % nums[j] == <span class="number">0</span>)</span><br><span class="line">                    dp[i] = Math.max(dp[i] , dp[j] + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(dp[i] &gt; maxLen)</span><br><span class="line">            &#123;</span><br><span class="line">                maxLen = dp[i];</span><br><span class="line">                maxVal = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(maxLen == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(nums[<span class="number">0</span>]);</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//倒推获得最大子集</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(maxLen == dp[i] &amp;&amp; maxVal % nums[i] == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                res.add(nums[i]);</span><br><span class="line">                maxLen--;</span><br><span class="line">                maxVal = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-94</title>
+    <url>/post/acd69900.html</url>
+    <content><![CDATA[<h1 id="94-二叉树的中序遍历"><a href="#94-二叉树的中序遍历" class="headerlink" title="94. 二叉树的中序遍历"></a><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/">94. 二叉树的中序遍历</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定一个二叉树的根节点 root ，返回它的 中序 遍历。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>中序遍历，BFS套用模板</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span>(root != <span class="keyword">null</span> || !stack.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(root != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                stack.addLast(root);    <span class="comment">//压栈</span></span><br><span class="line">                root = root.left;</span><br><span class="line">            &#125;</span><br><span class="line">            root = stack.pollLast();    <span class="comment">//弹栈</span></span><br><span class="line">            res.add(root.val);      <span class="comment">//添加元素</span></span><br><span class="line">            root = root.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>
