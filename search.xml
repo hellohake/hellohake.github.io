@@ -672,25 +672,6 @@
         <category>每日一题</category>
       </categories>
       <tags>
-        <tag>每人一题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>lc-1011</title>
-    <url>/post/9d341272.html</url>
-    <content><![CDATA[<h1 id="1011-在-D-天内送达包裹的能力"><a href="#1011-在-D-天内送达包裹的能力" class="headerlink" title="1011. 在 D 天内送达包裹的能力"></a><a href="https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/">1011. 在 D 天内送达包裹的能力</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">传送带上的包裹必须在 D 天内从一个港口运送到另一个港口。</span><br><span class="line"></span><br><span class="line">传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。</span><br><span class="line"></span><br><span class="line">返回能在 D 天内将传送带上的所有包裹送达的船的最低运载能力。</span><br></pre></td></tr></table></figure>
-
-<hr>
-<blockquote>
-<p>思路：使用二分查找结果：首先确定船的最低运载能力，然后确定最大运载能力，然后在此之间进行查找</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shipWithinDays</span><span class="params">(<span class="keyword">int</span>[] weights, <span class="keyword">int</span> D)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length;</span><br><span class="line">        <span class="keyword">int</span> left = -<span class="number">1</span>, right = <span class="number">0</span>;       <span class="comment">//确定二分左右边界</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            left = Math.max(left , weights[i]);</span><br><span class="line">            right += weights[i];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(left &lt; right)     <span class="comment">//二分</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (left + right) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(check(weights, mid , D)) <span class="comment">//满足最大运力</span></span><br><span class="line">            &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;   <span class="comment">//不满足最大运力</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span>[] weights , <span class="keyword">int</span> m , <span class="keyword">int</span> d)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; n ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum + weights[i] &lt;= m)   <span class="comment">//未达到最大运力，继续累加</span></span><br><span class="line">            &#123;</span><br><span class="line">                sum += weights[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//达到最大运力，更新</span></span><br><span class="line">                sum = weights[i];</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt &lt;= d;        <span class="comment">//该运力是否超过最大天数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
         <tag>每日一题</tag>
       </tags>
   </entry>
@@ -712,47 +693,6 @@
       </categories>
       <tags>
         <tag>剑指Offer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>lc-897</title>
-    <url>/post/de7f8861.html</url>
-    <content><![CDATA[<h1 id="897-递增顺序搜索树"><a href="#897-递增顺序搜索树" class="headerlink" title="897. 递增顺序搜索树"></a><a href="https://leetcode-cn.com/problems/increasing-order-search-tree/">897. 递增顺序搜索树</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一棵二叉搜索树，请你 按中序遍历 将其重新排列为一棵递增顺序搜索树，使树中最左边的节点成为树的根节点，并且每个节点没有左子节点，只有一个右子节点。</span><br></pre></td></tr></table></figure>
-
-<hr>
-<blockquote>
-<p>思路：中序遍历，在遍历的过程中对二叉搜素树进行修改，使用一个pre指针指向当前节点cur的左孩子，然后根据pre和cur的位置关系修改指针指向，更改指向后，将pre更新为cur，并清空其左子树</p>
-<p>其他思路：迭代实现</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    TreeNode pre = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">increasingBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        TreeNode dummy = <span class="keyword">new</span> TreeNode(-<span class="number">1</span>);</span><br><span class="line">        pre = dummy;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> dummy.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        pre.right = root;   <span class="comment">//更改指针指向</span></span><br><span class="line">        pre = root;         <span class="comment">//更新pre位置</span></span><br><span class="line">        pre.left = <span class="keyword">null</span>;    <span class="comment">//清空其左指针指向</span></span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>lc-377</title>
-    <url>/post/4ca94a0e.html</url>
-    <content><![CDATA[<h1 id="377-组合总和-Ⅳ"><a href="#377-组合总和-Ⅳ" class="headerlink" title="377. 组合总和 Ⅳ"></a><a href="https://leetcode-cn.com/problems/combination-sum-iv/">377. 组合总和 Ⅳ</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。</span><br><span class="line"></span><br><span class="line">题目数据保证答案符合 32 位整数范围。</span><br></pre></td></tr></table></figure>
-
-<hr>
-<blockquote>
-<p>动态规划，考虑背包问题</p>
-<p><em>dp</em>[<em>x</em>] 表示选取的元素之和等于 x<em>x</em> 的方案数，目标是求dp[target]。</p>
-<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210424090633.png" alt="image-20210424090633543"></p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">combinationSum4</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="comment">//dp[i] : 以i结尾的最大排列数</span></span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[target+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;   <span class="comment">//不选取元素时，总和才为0 ， 方案为1  </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= target ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i &gt;= num)</span><br><span class="line">                    dp[i] += dp[i - num];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
       </tags>
   </entry>
   <entry>
@@ -818,6 +758,114 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jz-13</title>
+    <url>/post/583a6b1e.html</url>
+    <content><![CDATA[<h1 id="剑指-Offer-13-机器人的运动范围"><a href="#剑指-Offer-13-机器人的运动范围" class="headerlink" title="剑指 Offer 13. 机器人的运动范围"></a><a href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">剑指 Offer 13. 机器人的运动范围</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7&#x3D;18。但它不能进入方格 [35, 38]，因为3+5+3+8&#x3D;19。请问该机器人能够到达多少个格子？</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：使用回溯算法进行暴力搜索，注意不能对方格格子进行重复计数，需要使用标记数组visited对已经访问过的数组进行标记</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[m][n];</span><br><span class="line">        dfs(<span class="number">0</span> , <span class="number">0</span> , m , n , k ,visited);</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> i , <span class="keyword">int</span> j , <span class="keyword">int</span> m , <span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">boolean</span>[][] visited)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//剪枝</span></span><br><span class="line">        <span class="keyword">if</span>(i &gt;= m || j &gt;= n || i &lt; <span class="number">0</span> || j &lt; <span class="number">0</span> || visited[i][j] || getSum(i) + getSum(j) &gt; k)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        cnt++;</span><br><span class="line">        visited[i][j] = <span class="keyword">true</span>;</span><br><span class="line">        dfs(i + <span class="number">1</span> , j , m , n , k ,visited);</span><br><span class="line">        dfs(i , j + <span class="number">1</span>, m , n , k , visited);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(num != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += (num % <span class="number">10</span>);</span><br><span class="line">            num /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>剑指Offer</category>
+      </categories>
+      <tags>
+        <tag>剑指Offer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-938</title>
+    <url>/post/b5ed174d.html</url>
+    <content><![CDATA[<h1 id="938-二叉搜索树的范围和"><a href="#938-二叉搜索树的范围和" class="headerlink" title="938. 二叉搜索树的范围和"></a><a href="https://leetcode-cn.com/problems/range-sum-of-bst/">938. 二叉搜索树的范围和</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定二叉搜索树的根结点 root，返回值位于范围 [low, high] 之间的所有结点的值的和。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路1： DFS，2种写法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//写法1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeSumBST</span><span class="params">(TreeNode root, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        dfs(root, low , high);</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        dfs(root.left, low , high);</span><br><span class="line">        <span class="keyword">if</span>(root.val &gt;= low &amp;&amp; root.val &lt;= high)</span><br><span class="line">            sum += root.val;</span><br><span class="line">        dfs(root.right, low , high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//利用二叉搜索树特性</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeSumBST</span><span class="params">(TreeNode root, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(root.val &gt; high)</span><br><span class="line">            <span class="keyword">return</span> rangeSumBST(root.left, low , high);</span><br><span class="line">        <span class="keyword">if</span>(root.val &lt; low)</span><br><span class="line">            <span class="keyword">return</span> rangeSumBST(root.right, low , high);</span><br><span class="line">        <span class="keyword">return</span> root.val + rangeSumBST(root.left, low , high) + rangeSumBST(root.right, low , high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>BFS写法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rangeSumBST</span><span class="params">(TreeNode root, <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        ArrayDeque&lt;TreeNode&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        stack.offerLast(root);</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            TreeNode node = stack.pollFirst();</span><br><span class="line">            <span class="keyword">if</span>(node == <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(node.val &lt; low)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)</span><br><span class="line">                    stack.offerLast(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(node.val &gt; high)&#123;</span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)</span><br><span class="line">                    stack.offerLast(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                res += node.val;</span><br><span class="line">                <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)		<span class="comment">//需要判断是否为空，否则会抛出异常</span></span><br><span class="line">                    stack.offerLast(node.left);</span><br><span class="line">                <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)</span><br><span class="line">                    stack.offerLast(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-1011</title>
+    <url>/post/9d341272.html</url>
+    <content><![CDATA[<h1 id="1011-在-D-天内送达包裹的能力"><a href="#1011-在-D-天内送达包裹的能力" class="headerlink" title="1011. 在 D 天内送达包裹的能力"></a><a href="https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/">1011. 在 D 天内送达包裹的能力</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">传送带上的包裹必须在 D 天内从一个港口运送到另一个港口。</span><br><span class="line"></span><br><span class="line">传送带上的第 i 个包裹的重量为 weights[i]。每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。</span><br><span class="line"></span><br><span class="line">返回能在 D 天内将传送带上的所有包裹送达的船的最低运载能力。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：使用二分查找结果：首先确定船的最低运载能力，然后确定最大运载能力，然后在此之间进行查找</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shipWithinDays</span><span class="params">(<span class="keyword">int</span>[] weights, <span class="keyword">int</span> D)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length;</span><br><span class="line">        <span class="keyword">int</span> left = -<span class="number">1</span>, right = <span class="number">0</span>;       <span class="comment">//确定二分左右边界</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            left = Math.max(left , weights[i]);</span><br><span class="line">            right += weights[i];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(left &lt; right)     <span class="comment">//二分</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (left + right) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(check(weights, mid , D)) <span class="comment">//满足最大运力</span></span><br><span class="line">            &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;   <span class="comment">//不满足最大运力</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span>[] weights , <span class="keyword">int</span> m , <span class="keyword">int</span> d)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weights.length, sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; n ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum + weights[i] &lt;= m)   <span class="comment">//未达到最大运力，继续累加</span></span><br><span class="line">            &#123;</span><br><span class="line">                sum += weights[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//达到最大运力，更新</span></span><br><span class="line">                sum = weights[i];</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt &lt;= d;        <span class="comment">//该运力是否超过最大天数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-377</title>
+    <url>/post/4ca94a0e.html</url>
+    <content><![CDATA[<h1 id="377-组合总和-Ⅳ"><a href="#377-组合总和-Ⅳ" class="headerlink" title="377. 组合总和 Ⅳ"></a><a href="https://leetcode-cn.com/problems/combination-sum-iv/">377. 组合总和 Ⅳ</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。</span><br><span class="line"></span><br><span class="line">题目数据保证答案符合 32 位整数范围。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://leetcode-cn.com/problems/combination-sum-iv/solution/xi-wang-yong-yi-chong-gui-lu-gao-ding-bei-bao-wen-/">背包参考题解</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>动态规划，考虑背包问题</p>
+<p><em>dp</em>[<em>x</em>] 表示选取的元素之和等于 x<em>x</em> 的方案数，目标是求dp[target]。</p>
+<p><img src="https://gitee.com/hellohakelh/mypicbed/raw/master/img/20210424090633.png" alt="image-20210424090633543"></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">combinationSum4</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = nums.length;</span><br><span class="line">        <span class="comment">//dp[i] : 以i结尾的最大排列数</span></span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[target+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;   <span class="comment">//不选取元素时，总和才为0 ， 方案为1  </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= target ; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i &gt;= num)</span><br><span class="line">                    dp[i] += dp[i - num];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lc-897</title>
+    <url>/post/de7f8861.html</url>
+    <content><![CDATA[<h1 id="897-递增顺序搜索树"><a href="#897-递增顺序搜索树" class="headerlink" title="897. 递增顺序搜索树"></a><a href="https://leetcode-cn.com/problems/increasing-order-search-tree/">897. 递增顺序搜索树</a></h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给你一棵二叉搜索树，请你 按中序遍历 将其重新排列为一棵递增顺序搜索树，使树中最左边的节点成为树的根节点，并且每个节点没有左子节点，只有一个右子节点。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>思路：中序遍历，在遍历的过程中对二叉搜素树进行修改，使用一个pre指针指向当前节点cur的左孩子，然后根据pre和cur的位置关系修改指针指向，更改指向后，将pre更新为cur，并清空其左子树</p>
+<p>其他思路：迭代实现</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    TreeNode pre = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">increasingBST</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        TreeNode dummy = <span class="keyword">new</span> TreeNode(-<span class="number">1</span>);</span><br><span class="line">        pre = dummy;</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> dummy.right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        pre.right = root;   <span class="comment">//更改指针指向</span></span><br><span class="line">        pre = root;         <span class="comment">//更新pre位置</span></span><br><span class="line">        pre.left = <span class="keyword">null</span>;    <span class="comment">//清空其左指针指向</span></span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
       </tags>
   </entry>
 </search>
