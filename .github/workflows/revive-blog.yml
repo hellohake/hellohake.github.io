@@ -1,0 +1,74 @@
+name: Revive blog for GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/revive-blog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  revive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update generated site for github.io domain
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const root = process.cwd();
+          const textExt = new Set(['.html', '.xml', '.txt', '.md']);
+          const changed = [];
+
+          function walk(dir) {
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              if (entry.name === '.git') continue;
+              const full = path.join(dir, entry.name);
+              if (entry.isDirectory()) walk(full);
+              else if (entry.isFile()) {
+                const rel = path.relative(root, full).split(path.sep).join('/');
+                if (!textExt.has(path.extname(rel).toLowerCase())) continue;
+                const before = fs.readFileSync(full, 'utf8');
+                const after = before
+                  .replace(/hellohake\.top/g, 'hellohake.github.io')
+                  .replace(/id(\s+):(\s+),/g, 'id$1:$2 0,');
+                if (after !== before) {
+                  fs.writeFileSync(full, after, 'utf8');
+                  changed.push(rel);
+                }
+              }
+            }
+          }
+
+          walk(root);
+
+          const imageDoc = `# Free Image Hosting\n\nThis blog uses the public GitHub repository \`hellohake/MyPicGoPicBed\` as a free image bed.\n\n## Recommended URL Format\n\nUse raw GitHub URLs for stable free hosting:\n\n\`\`\`md\n![alt](https://raw.githubusercontent.com/hellohake/MyPicGoPicBed/main/path/to/image.png)\n\`\`\`\n\nOptional CDN URL when jsDelivr is available:\n\n\`\`\`md\n![alt](https://cdn.jsdelivr.net/gh/hellohake/MyPicGoPicBed@main/path/to/image.png)\n\`\`\`\n\n## Suggested Folder Layout\n\n\`\`\`text\nblog/2026/post-name/image-name.png\n\`\`\`\n\nKeep image names ASCII and URL-safe. Avoid spaces in filenames.\n`;
+          const imageDocPath = path.join(root, 'FREE_IMAGE_HOSTING.md');
+          const previousImageDoc = fs.existsSync(imageDocPath) ? fs.readFileSync(imageDocPath, 'utf8') : '';
+          if (previousImageDoc !== imageDoc) {
+            fs.writeFileSync(imageDocPath, imageDoc, 'utf8');
+            changed.push('FREE_IMAGE_HOSTING.md');
+          }
+
+          console.log(`changed ${changed.length} files`);
+          for (const file of changed.slice(0, 40)) console.log(file);
+          NODE
+
+      - name: Commit revival changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Revive blog on github.io domain"
+          git push
