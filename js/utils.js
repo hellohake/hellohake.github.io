@@ -381,6 +381,25 @@ NexT.utils = {
   },
 
   getScript: function(url, callback, condition) {
+    if (/valine/i.test(url)) {
+      window.Valine = function(options) {
+        var container = document.querySelector(options.el);
+        if (!container) return;
+        container.id = 'utterances-comments';
+        container.innerHTML = '';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'hellohake/helloblog-comments');
+        script.setAttribute('issue-term', 'pathname');
+        script.setAttribute('label', 'blog-comment');
+        script.setAttribute('theme', 'github-light');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        container.appendChild(script);
+      };
+      if (callback) setTimeout(callback, 0);
+      return;
+    }
     if (condition) {
       callback();
     } else {
