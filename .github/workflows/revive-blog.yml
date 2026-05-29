@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Update generated site for github.io domain
+      - name: Update generated site for github.io domain and GitHub comments
         run: |
           node <<'NODE'
           const fs = require('fs');
@@ -26,6 +26,35 @@ jobs:
           const root = process.cwd();
           const textExt = new Set(['.html', '.xml', '.txt', '.md']);
           const changed = [];
+
+          const utterancesBlock = `NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+            const container = document.querySelector('#valine-comments');
+            if (!container) return;
+            container.innerHTML = '';
+            const utterances = document.createElement('script');
+            utterances.src = 'https://utteranc.es/client.js';
+            utterances.setAttribute('repo', 'hellohake/helloblog-comments');
+            utterances.setAttribute('issue-term', 'pathname');
+            utterances.setAttribute('label', 'blog-comment');
+            utterances.setAttribute('theme', 'github-light');
+            utterances.setAttribute('crossorigin', 'anonymous');
+            utterances.async = true;
+            container.appendChild(utterances);
+          });`;
+
+          function updateText(before) {
+            return before
+              .replace(/hellohake\.top/g, 'hellohake.github.io')
+              .replace(/id(\s+):(\s+),/g, 'id$1:$2 0,')
+              .replace(/NexT\.utils\.loadComments\(document\.querySelector\('#valine-comments'\), \(\) => \{\s*\n\s*NexT\.utils\.getScript\('https:\/\/cdn\.jsdelivr\.net\/npm\/valine@1\.4\.14\/dist\/Valine\.min\.js'[\s\S]*?\n\s*\}, window\.Valine\);\s*\n\s*\}\);/g, utterancesBlock)
+              .replace(/#valine-comments/g, '#utterances-comments')
+              .replace(/id="valine-comments"/g, 'id="utterances-comments"')
+              .replace(/title="valine"/g, 'title="comments"')
+              .replace(/Valine：/g, '评论：')
+              .replace(/valine-comment-count/g, 'comments-count')
+              .replace(/"active":"valine"/g, '"active":"utterances"')
+              .replace(/"activeClass":"valine"/g, '"activeClass":"utterances"');
+          }
 
           function walk(dir) {
             for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -36,9 +65,7 @@ jobs:
                 const rel = path.relative(root, full).split(path.sep).join('/');
                 if (!textExt.has(path.extname(rel).toLowerCase())) continue;
                 const before = fs.readFileSync(full, 'utf8');
-                const after = before
-                  .replace(/hellohake\.top/g, 'hellohake.github.io')
-                  .replace(/id(\s+):(\s+),/g, 'id$1:$2 0,');
+                const after = updateText(before);
                 if (after !== before) {
                   fs.writeFileSync(full, after, 'utf8');
                   changed.push(rel);
@@ -49,7 +76,32 @@ jobs:
 
           walk(root);
 
-          const imageDoc = `# Free Image Hosting\n\nThis blog uses the public GitHub repository \`hellohake/MyPicGoPicBed\` as a free image bed.\n\n## Recommended URL Format\n\nUse raw GitHub URLs for stable free hosting:\n\n\`\`\`md\n![alt](https://raw.githubusercontent.com/hellohake/MyPicGoPicBed/main/path/to/image.png)\n\`\`\`\n\nOptional CDN URL when jsDelivr is available:\n\n\`\`\`md\n![alt](https://cdn.jsdelivr.net/gh/hellohake/MyPicGoPicBed@main/path/to/image.png)\n\`\`\`\n\n## Suggested Folder Layout\n\n\`\`\`text\nblog/2026/post-name/image-name.png\n\`\`\`\n\nKeep image names ASCII and URL-safe. Avoid spaces in filenames.\n`;
+          const imageDoc = `# Free Image Hosting
+
+This blog uses the public GitHub repository \`hellohake/MyPicGoPicBed\` as a free image bed.
+
+## Recommended URL Format
+
+Use raw GitHub URLs for stable free hosting:
+
+\`\`\`md
+![alt](https://raw.githubusercontent.com/hellohake/MyPicGoPicBed/main/path/to/image.png)
+\`\`\`
+
+Optional CDN URL when jsDelivr is available:
+
+\`\`\`md
+![alt](https://cdn.jsdelivr.net/gh/hellohake/MyPicGoPicBed@main/path/to/image.png)
+\`\`\`
+
+## Suggested Folder Layout
+
+\`\`\`text
+blog/2026/post-name/image-name.png
+\`\`\`
+
+Keep image names ASCII and URL-safe. Avoid spaces in filenames.
+`;
           const imageDocPath = path.join(root, 'FREE_IMAGE_HOSTING.md');
           const previousImageDoc = fs.existsSync(imageDocPath) ? fs.readFileSync(imageDocPath, 'utf8') : '';
           if (previousImageDoc !== imageDoc) {
@@ -70,5 +122,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Revive blog on github.io domain"
+          git commit -m "Migrate comments to GitHub Issues"
           git push
